@@ -4,11 +4,11 @@ const morgan = require('morgan');
 const app = express();
 const SERVER_PORT = process.env.PORT ?? 3000;
 
+const apiRouter = require('./routes/api');
+
 app.use(morgan('tiny'));
 
-app.get('/', (req, res) => {
-  res.status(200).json({ data: 'data' });
-});
+app.use('/', apiRouter);
 
 app.all('*', (req, res) => {
   res.status(404).send('Nothing to see here.');
