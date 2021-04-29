@@ -1,41 +1,39 @@
 class TakeBlipUtil {
-  async filterRepositoriesByLanguage(repos, language) {
+  async filterRepositoriesByLanguage(repositories, language) {
     if (language) {
-      return repos.filter((repo) => {
+      return repositories.filter((repo) => {
         if (repo.language) {
           return repo.language.toLowerCase() === language.toLowerCase();
         }
         return false;
       });
     }
-    return repos;
+    return repositories;
   }
 
-  async sortRepositoriesByCreationDate(repos, orderBy) {
-    console.log({ repos });
-    console.log({ orderBy });
+  async sortRepositoriesByCreationDate(repositories, orderBy) {
     if (orderBy === 'new') {
-      repos.sort((a, b) => {
+      repositories.sort((a, b) => {
         const dateA = new Date(a.created_at);
         const dateB = new Date(b.created_at);
         return dateB - dateA;
       });
     }
     if (orderBy === 'old') {
-      repos.sort((a, b) => {
+      repositories.sort((a, b) => {
         const dateA = new Date(a.created_at);
         const dateB = new Date(b.created_at);
         return dateA - dateB;
       });
     }
-    return repos;
+    return repositories;
   }
 
-  async filterRepositoriesByLimit(repos, limit) {
+  async filterRepositoriesByLimit(repositories, limit) {
     if (limit) {
-      return repos.slice(0, limit);
+      return repositories.slice(0, limit);
     }
-    return repos;
+    return repositories;
   }
 }
 

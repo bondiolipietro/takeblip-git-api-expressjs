@@ -8,12 +8,28 @@ const takeBlipUtil = require('../util/TakeBlipUtil');
 class TakeBlipService {
   async getAllRepositories(language, orderBy, limit) {
     const url = 'https://api.github.com/orgs/takenet/repos?per_page=100';
-    let { data: repos } = await axios.get(url);
-    repos = repos.map((repo) => new Repository(repo));
-    repos = await takeBlipUtil.filterRepositoriesByLanguage(repos, language);
-    repos = await takeBlipUtil.sortRepositoriesByCreationDate(repos, orderBy);
-    repos = await takeBlipUtil.filterRepositoriesByLimit(repos, limit);
-    return repos;
+    let repositories = await this.recursivelyGetReposFromAllAvailablePages(url, 1, []);
+    repositories = repositories.map((repo) => new Repository(repo));
+    repositories = await takeBlipUtil.filterRepositoriesByLanguage(
+      repositories,
+      language
+    );
+    repositories = await takeBlipUtil.sortRepositoriesByCreationDate(
+      repositories,
+      orderBy
+    );
+    repositories = await takeBlipUtil.filterRepositoriesByLimit(repositories, limit);
+    return repositories;
+  }
+
+  async recursivelyGetReposFromAllAvailablePages(url, page, repoList) {
+    const { data: repos } = await axios.get(`${url}&page=${page}`);
+    if (repos.length === 0) {
+      return repoList;
+    }
+    repoList = repoList.concat(repos);
+    page++;
+    return this.recursivelyGetReposFromAllAvailablePages(url, page, repoList);
   }
 
   async getRepository(name) {
