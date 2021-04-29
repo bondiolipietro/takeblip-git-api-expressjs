@@ -2,11 +2,11 @@ const takeBlipService = require('../service/TakeBlipService');
 
 class TakeBlipController {
   async getAllRepositories(req, res) {
-    const { language = null, orderBy = 'new', limit = null } = req.query;
+    const { language = null, order_by = 'new', limit = null } = req.query;
     try {
       const repositories = await takeBlipService.getAllRepositories(
         language,
-        orderBy,
+        order_by,
         limit
       );
       if (!repositories.length > 0) {
@@ -49,9 +49,8 @@ class TakeBlipController {
   }
 
   async getAllMembers(req, res) {
-    const { orderBy = 'a-z', limit = null } = req.query;
     try {
-      const members = await takeBlipService.getAllMembers(orderBy, limit);
+      const members = await takeBlipService.getAllMembers();
       if (!members.length > 0) {
         throw new Error();
       }
