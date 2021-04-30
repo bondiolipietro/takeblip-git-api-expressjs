@@ -1,8 +1,6 @@
 # Take Blip Git Repos API
 
----
-
-A REST API that returns github repositories, it works integrated with a ChatBot builded at TakeBlip platform. The API makes all requests over 'https://api.github.com/repos/takenet/', so it only returns repositories of Takenet org.
+A REST API that returns github repositories, it works integrated with a ChatBot builded at TakeBlip platform. The API makes all requests over https://api.github.com/repos/takenet/, so it only returns repositories of Takenet org. The API was deployed to Heroku and can be accessed on https://takeblip-git-api-expressjs.herokuapp.com/.
 
 ## Installation
 
@@ -40,43 +38,45 @@ npm install && npm run start
 
 ---
 
-### Get All Repositories - GET
+### **Get All Repositories - GET**
 
 **Route**
 
-| METHOD | ROUTE                 | EXAMPLE WITH PARAMS / QUERY STRINGS                    |
-| ------ | --------------------- | ------------------------------------------------------ |
-| GET    | /api/v1/repositories/ | /api/v1/repositories?language=C%23&order_by=old&limit5 |
+| METHOD | ROUTE                        | STATUS CODES | EXAMPLE WITH PARAMS / QUERY STRINGS                            |
+| ------ | ---------------------------- | ------------ | -------------------------------------------------------------- |
+| GET    | /api/v1/takeblip/repositories/ | 200 / 400    | /api/v1/takeblip/repositories?language=C%23&order_by=old&limit=5 |
 
 **Query String Parameters**
 
-| PARAM    | TYPE    | REQUIRED/OPTIONAL | EXAMPLES                   | ALLOWED PARAMS | DESCRIPTION                                                                                                 |
-| -------- | ------- | ----------------- | -------------------------- | -------------- | ----------------------------------------------------------------------------------------------------------- |
-| language | String  | Optional          | C%23(C#) / JavaScript / Go | \*             | API will only return repositories that has the specified language as main                                   |
-| order_by | String  | Optional          | new / old                  | new / old      | API will sort repositories by date according to this param                                                  |
-| limit    | Integer | Optional          | 5 / 16 / 64                | \*             | Applied over the final response object, only the first X (limit) repositories in the array will be returned |
+| PARAM    | TYPE    | REQUIRED/OPTIONAL | EXAMPLES                    | ALLOWED PARAMS | DESCRIPTION                                                                                                 |
+| -------- | ------- | ----------------- | --------------------------- | -------------- | ----------------------------------------------------------------------------------------------------------- |
+| language | String  | Optional          | C%23 (C#) / JavaScript / Go | \*             | API will only return repositories that has the specified language as main                                   |
+| order_by | String  | Optional          | new / old                   | new / old      | API will sort repositories by date according to this param                                                  |
+| limit    | Integer | Optional          | 5 / 16 / 64                 | \*             | Applied over the final response object, only the first X (limit) repositories in the array will be returned |
 
 **Response Body**
 
-| FIELD  | TYPE   | DESCRIPTION                                 |
-| ------ | ------ | ------------------------------------------- |
-| status | String | Returns "ok" or "error"                     |
-| data   | List   | Returns a list of [Repository](#repository) |
+| FIELD  | TYPE   | DESCRIPTION                                                 |
+| ------ | ------ | ----------------------------------------------------------- |
+| status | String | Returns "ok" or "error"                                     |
+| data   | List   | Returns a list of [Repository](#repository)                 |
+| msg    | String | Returns a message if needed, mainly used to describe errors |
 
 ```json
 {
   "status": String,
-  "data": Repository[]
+  "data": Repository[],
+  "msg": String
 }
 ```
 
-### Get Repository - GET
+### **Get Repository - GET**
 
 **Route**
 
-| METHOD | ROUTE                          | EXAMPLE WITH PARAMS / QUERY STRINGS |
-| ------ | ------------------------------ | ----------------------------------- |
-| GET    | /api/v1/repositories/:repoName | /api/v1/repositories/blip-docs      |
+| METHOD | ROUTE                                 | STATUS CODES | EXAMPLE WITH PARAMS / QUERY STRINGS   |
+| ------ | ------------------------------------- | ------------ | ------------------------------------- |
+| GET    | /api/v1/takeblip/repositories/:repoName | 200 / 400    | /api/v1/takeblip/repositories/blip-docs |
 
 **Parameters**
 
@@ -86,15 +86,17 @@ npm install && npm run start
 
 **Response Body**
 
-| FIELD  | TYPE                      | DESCRIPTION                         |
-| ------ | ------------------------- | ----------------------------------- |
-| status | String                    | Returns "ok" or "error"             |
-| data   | [Repository](#repository) | Returns a [Repository](#repository) |
+| FIELD  | TYPE                      | DESCRIPTION                                                 |
+| ------ | ------------------------- | ----------------------------------------------------------- |
+| status | String                    | Returns "ok" or "error"                                     |
+| data   | [Repository](#repository) | Returns a [Repository](#repository)                         |
+| msg    | String                    | Returns a message if needed, mainly used to describe errors |
 
 ```json
 {
   "status": String,
-  "data": Repository
+  "data": Repository,
+  "msg": String
 }
 ```
 
@@ -116,25 +118,27 @@ npm install && npm run start
 }
 ```
 
-### Get All Members - GET
+### **Get All Members - GET**
 
 **Route**
 
-| METHOD | ROUTE            |
-| ------ | ---------------- |
-| GET    | /api/v1/members/ |
+| METHOD | ROUTE                    | STATUS CODES |
+| ------ | ------------------------ | ------------ |
+| GET    | /api/v1/takeblip/members/ | 200 / 400    |
 
 **Response Body**
 
-| FIELD  | TYPE   | DESCRIPTION                         |
-| ------ | ------ | ----------------------------------- |
-| status | String | Returns "ok" or "error"             |
-| data   | List   | Returns a list of [Member](#member) |
+| FIELD  | TYPE   | DESCRIPTION                                                 |
+| ------ | ------ | ----------------------------------------------------------- |
+| status | String | Returns "ok" or "error"                                     |
+| data   | List   | Returns a list of [Member](#member)                         |
+| msg    | String | Returns a message if needed, mainly used to describe errors |
 
 ```json
 {
   "status": String,
-  "data": Member[]
+  "data": Member[],
+  "msg": String
 }
 ```
 
