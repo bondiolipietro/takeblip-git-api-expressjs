@@ -12,11 +12,10 @@ class TakeBlipController {
       if (!repositories.length > 0) {
         throw new Error();
       }
-      res.status(200).json({ status: 'ok', data: repositories }).end();
+      res.status(200).json({ status: 'ok', data: repositories, msg: '' }).end();
     } catch (e) {
-      console.error(e);
       res
-        .status(500)
+        .status(400)
         .json({ status: 'error', msg: 'Could not find any repository.' })
         .end();
     }
@@ -38,9 +37,8 @@ class TakeBlipController {
       if (!repository) {
         throw new Error();
       }
-      res.status(200).json({ status: 'ok', data: repository }).end();
+      res.status(200).json({ status: 'ok', data: repository, msg: '' }).end();
     } catch (e) {
-      console.error(e);
       res
         .status(400)
         .json({ status: 'error', msg: `Could not find any repository named ${repoName}` })
@@ -54,10 +52,9 @@ class TakeBlipController {
       if (!members.length > 0) {
         throw new Error();
       }
-      res.status(200).json({ status: 'ok', data: members }).end();
+      res.status(200).json({ status: 'ok', data: members, msg: '' }).end();
     } catch (e) {
-      console.error(e);
-      res.status(500).json({ status: 'error', msg: 'Could not find any member.' }).end();
+      res.status(400).json({ status: 'error', msg: 'Could not find any member.' }).end();
     }
   }
 }
